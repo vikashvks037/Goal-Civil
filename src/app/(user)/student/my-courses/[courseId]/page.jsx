@@ -1,5 +1,5 @@
 import CoursePlayer from "@/features/student/components/CoursePlayer";
 
-export default function StudentCourseViewPage({ params }) {
-  return <CoursePlayer params={params} />;
+export default function StudentCourseViewPage() {
+  return <CoursePlayer />;
 }

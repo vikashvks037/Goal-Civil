@@ -3,10 +3,12 @@ import { ENDPOINTS, ROUTES } from '@/constants';
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Plus, Edit2, Trash2, Eye, EyeOff, BookOpen, Loader2 } from 'lucide-react';
+import { MediaUpload } from '@/shared/components/MediaUpload';
 
 const EMPTY = {
   title: '', description: '', shortDesc: '', price: 0,
   isFree: false, category: '', language: 'Hindi', isPublished: false,
+  thumbnail: '',
 };
 
 const INPUT = "input-base";
@@ -31,7 +33,7 @@ export function CoursesManager() {
   const openCreate = () => { setEditing(null); setForm(EMPTY); setModal(true); };
   const openEdit   = (c) => {
     setEditing(c._id);
-    setForm({ title: c.title, description: c.description || '', shortDesc: c.shortDesc || '', price: c.price, isFree: c.isFree, category: c.category || '', language: c.language || 'Hindi', isPublished: c.isPublished });
+    setForm({ title: c.title, description: c.description || '', shortDesc: c.shortDesc || '', price: c.price, isFree: c.isFree, category: c.category || '', language: c.language || 'Hindi', isPublished: c.isPublished, thumbnail: c.thumbnail || '' });
     setModal(true);
   };
 
@@ -147,6 +149,14 @@ export function CoursesManager() {
               <div>
                 <label className={LABEL} style={{ color: 'var(--text-secondary)' }}>Short Description</label>
                 <textarea className={INPUT} rows={2} value={form.shortDesc} onChange={e => setForm(p => ({ ...p, shortDesc: e.target.value }))} placeholder="Brief course summary" />
+              </div>
+              <div>
+                <label className={LABEL} style={{ color: 'var(--text-secondary)' }}>Thumbnail Image</label>
+                <MediaUpload
+                  type="image"
+                  value={form.thumbnail}
+                  onChange={url => setForm(p => ({ ...p, thumbnail: url }))}
+                />
               </div>
               <div className="flex items-center gap-3">
                 <label className="flex items-center gap-2 cursor-pointer text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>

@@ -3,6 +3,7 @@ import { ENDPOINTS } from '@/constants';
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Plus, Edit2, Trash2, Eye, EyeOff, FileText, Loader2 } from 'lucide-react';
+import { CustomSelect } from '@/shared/components/CustomSelect';
 
 const EMPTY = { title: '', type: 'mcq', duration: 60, totalMarks: 100, isPublished: false, courseId: '' };
 const INPUT = "input-base";
@@ -106,11 +107,11 @@ export function TestsManager() {
       {modal && (
         <div className="modal-overlay" onClick={() => setModal(false)}>
           <div className="modal-box" onClick={e => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: 'var(--border)' }}>
+            <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: 'var(--border)', flexShrink: 0 }}>
               <h2 className="text-lg font-black" style={{ color: 'var(--text-primary)' }}>{editing ? 'Edit Test' : 'New Test'}</h2>
               <button onClick={() => setModal(false)} className="btn-ghost px-2 py-1.5">✕</button>
             </div>
-            <div className="p-6 space-y-4">
+            <div className="modal-scroll p-6 space-y-4">
               <div>
                 <label className={LABEL} style={{ color: 'var(--text-secondary)' }}>Title *</label>
                 <input className={INPUT} value={form.title} onChange={e => setForm(p => ({ ...p, title: e.target.value }))} placeholder="Test title" />
@@ -118,9 +119,12 @@ export function TestsManager() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className={LABEL} style={{ color: 'var(--text-secondary)' }}>Type</label>
-                  <select className={INPUT} value={form.type} onChange={e => setForm(p => ({ ...p, type: e.target.value }))}>
-                    {['mcq', 'subjective', 'mock', 'chapter'].map(t => <option key={t} value={t}>{t}</option>)}
-                  </select>
+                  <CustomSelect
+                    className={INPUT}
+                    value={form.type}
+                    onChange={val => setForm(p => ({ ...p, type: val }))}
+                    options={['mcq', 'subjective', 'mock', 'chapter']}
+                  />
                 </div>
                 <div>
                   <label className={LABEL} style={{ color: 'var(--text-secondary)' }}>Duration (min)</label>
@@ -132,10 +136,13 @@ export function TestsManager() {
                 </div>
                 <div>
                   <label className={LABEL} style={{ color: 'var(--text-secondary)' }}>Course (optional)</label>
-                  <select className={INPUT} value={form.courseId} onChange={e => setForm(p => ({ ...p, courseId: e.target.value }))}>
-                    <option value="">— None —</option>
-                    {courses.map(c => <option key={c._id} value={c._id}>{c.title}</option>)}
-                  </select>
+                  <CustomSelect
+                    className={INPUT}
+                    value={form.courseId}
+                    onChange={val => setForm(p => ({ ...p, courseId: val }))}
+                    placeholder="— None —"
+                    options={[{ value: '', label: '— None —' }, ...courses.map(c => ({ value: c._id, label: c.title }))]}
+                  />
                 </div>
               </div>
               <label className="flex items-center gap-2 cursor-pointer text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>

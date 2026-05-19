@@ -5,7 +5,7 @@ const ContentSchema = new Schema(
     title:        { type: String, required: true, trim: true },
     type:         { type: String, enum: ['video', 'pdf', 'live'], required: true },
     url:          { type: String },
-    cloudinaryId: { type: String },
+    storagePath:  { type: String },
     chapterId:    { type: Schema.Types.ObjectId, ref: 'Chapter', required: true },
     duration:     { type: Number },
     isFree:       { type: Boolean, default: false },

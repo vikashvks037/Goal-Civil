@@ -2,6 +2,7 @@
 import { ENDPOINTS } from '@/constants';
 import { useEffect, useState, useCallback } from 'react';
 import { Plus, Trash2, Eye, EyeOff } from 'lucide-react';
+import { CustomSelect } from '@/shared/components/CustomSelect';
 
 const EMPTY = { code: '', discountType: 'percent', discount: 10, maxUses: 100, isActive: true, expiresAt: '' };
 
@@ -84,10 +85,10 @@ export function CouponsManager() {
       </div>
 
       {modal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md">
-            <div className="p-5 border-b border-gray-100"><h2 className="font-black text-gray-900">New Coupon</h2></div>
-            <div className="p-5 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black/50 p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl w-full max-w-md my-4 sm:my-0 flex flex-col" style={{ maxHeight: '90dvh' }}>
+            <div className="p-5 border-b border-gray-100" style={{ flexShrink: 0 }}><h2 className="font-black text-gray-900">New Coupon</h2></div>
+            <div className="modal-scroll p-5 space-y-4">
               {[{ label: 'Code (e.g. BPSC50)', key: 'code', type: 'text' }].map(({ label, key, type }) => (
                 <div key={key}>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">{label}</label>
@@ -98,10 +99,12 @@ export function CouponsManager() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Type</label>
-                  <select value={form.discountType} onChange={e => setForm(p => ({ ...p, discountType: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="percent">Percent (%)</option><option value="flat">Flat (₹)</option>
-                  </select>
+                  <CustomSelect
+                    value={form.discountType}
+                    onChange={val => setForm(p => ({ ...p, discountType: val }))}
+                    options={[{ value: 'percent', label: 'Percent (%)' }, { value: 'flat', label: 'Flat (₹)' }]}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Discount {form.discountType === 'percent' ? '(%)' : '(₹)'}</label>
@@ -120,7 +123,7 @@ export function CouponsManager() {
                 </div>
               </div>
             </div>
-            <div className="p-5 border-t border-gray-100 flex gap-3">
+            <div className="p-5 border-t border-gray-100 flex gap-3" style={{ flexShrink: 0 }}>
               <button onClick={() => setModal(false)} className="flex-1 py-2 border border-gray-200 rounded-lg text-sm font-semibold text-gray-700">Cancel</button>
               <button onClick={save} disabled={saving || !form.code} className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-lg text-sm font-semibold">
                 {saving ? 'Saving...' : 'Create'}

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminAuth';
-import { uploadToCloudinary } from '@/server/lib/cloudinary';
+import { uploadToSupabase } from '@/server/lib/supabaseStorage';
 
 export async function POST(req) {
   const auth = await requireAdmin();
@@ -15,9 +15,9 @@ export async function POST(req) {
     if (file.size > 500 * 1024 * 1024) return NextResponse.json({ error: 'Video must be under 500MB.' }, { status: 400 });
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const { url, publicId } = await uploadToCloudinary(buffer, 'videos', 'video');
+    const { url, path } = await uploadToSupabase(buffer, 'videos', file.name, file.type);
 
-    return NextResponse.json({ message: 'Video uploaded.', url, publicId });
+    return NextResponse.json({ message: 'Video uploaded.', url, path });
   } catch (err) {
     console.error('[UPLOAD VIDEO ERROR]', err);
     return NextResponse.json({ error: 'Upload failed.' }, { status: 500 });

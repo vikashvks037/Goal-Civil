@@ -1,6 +1,7 @@
 import { connectDB } from '@/lib/mongodb';
 import { IndianRupee, TrendingUp } from 'lucide-react';
-import { PageHeader, StatCard } from '@/shared/components';
+import { Breadcrumbs, StatCard } from '@/shared/components';
+import { ROUTES } from '@/constants';
 
 async function getPayments() {
   try {
@@ -21,7 +22,12 @@ export default async function AdminPaymentsPage() {
 
   return (
     <div className="space-y-5">
-      <PageHeader title="Payments" subtitle="Successful transactions" />
+      <Breadcrumbs
+        crumbs={[
+          { label: 'Admin',    href: ROUTES.ADMIN.DASHBOARD },
+          { label: 'Payments' },
+        ]}
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <StatCard icon={<IndianRupee size={22}/>} label="Total Revenue" value={`₹${(totalRevenue/100).toLocaleString('en-IN')}`} color="bg-green-50 text-green-600"/>
@@ -33,11 +39,7 @@ export default async function AdminPaymentsPage() {
         <table className="data-table">
           <thead>
             <tr>
-              <th>Student</th>
-              <th>Course</th>
-              <th>Amount</th>
-              <th>Payment ID</th>
-              <th>Date</th>
+              <th>Student</th><th>Course</th><th>Amount</th><th>Payment ID</th><th>Date</th>
             </tr>
           </thead>
           <tbody>
@@ -46,10 +48,8 @@ export default async function AdminPaymentsPage() {
             ) : payments.map((p) => (
               <tr key={p._id}>
                 <td>
-                  <div>
-                    <p className="font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>{p.studentId?.name || '—'}</p>
-                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{p.studentId?.email}</p>
-                  </div>
+                  <p className="font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>{p.studentId?.name || '—'}</p>
+                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{p.studentId?.email}</p>
                 </td>
                 <td><span className="text-sm line-clamp-1" style={{ color: 'var(--text-secondary)' }}>{p.courseId?.title || '—'}</span></td>
                 <td><span className="font-bold text-sm" style={{ color: '#10b981' }}>₹{(p.amount/100).toLocaleString()}</span></td>

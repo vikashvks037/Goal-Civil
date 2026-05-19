@@ -27,14 +27,14 @@ export async function POST(req, { params }) {
     if (auth instanceof NextResponse) return auth;
 
     const { id } = await params;
-    const { title, type, url, cloudinaryId, duration, isFree, order } = await req.json();
+    const { title, type, url, storagePath, duration, isFree, order } = await req.json();
 
     if (!title || !type) return NextResponse.json({ error: 'Title and type are required.' }, { status: 400 });
 
     await connectDB();
     const count = await Content.countDocuments({ chapterId: id });
     const content = await Content.create({
-      title: title.trim(), type, url, cloudinaryId, chapterId: id,
+      title: title.trim(), type, url, storagePath, chapterId: id,
       duration, isFree: !!isFree, order: order ?? count,
     });
 

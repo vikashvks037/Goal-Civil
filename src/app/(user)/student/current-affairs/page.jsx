@@ -1,9 +1,9 @@
-import { ENDPOINTS } from '@/constants';
+import { ENDPOINTS, ROUTES } from '@/constants';
 import Link from 'next/link';
-import { Newspaper, CalendarDays } from 'lucide-react';
-import { PageHeader, EmptyState } from '@/shared/components';
+import { Newspaper, ChevronRight } from 'lucide-react';
+import { Breadcrumbs, EmptyState } from '@/shared/components';
 
-async function getCurrentAffairs() {
+async function getArticles() {
   try {
     const base = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
     const res  = await fetch(`${base}${ENDPOINTS.CURRENT_AFFAIRS.LIST}`, { cache: 'no-store' });
@@ -13,11 +13,16 @@ async function getCurrentAffairs() {
 }
 
 export default async function StudentCurrentAffairsPage() {
-  const articles = await getCurrentAffairs();
+  const articles = await getArticles();
 
   return (
     <div className="space-y-5">
-      <PageHeader title="Current Affairs" subtitle="Stay updated with daily news and analysis" />
+      <Breadcrumbs
+        crumbs={[
+          { label: 'Dashboard',       href: ROUTES.STUDENT.DASHBOARD },
+          { label: 'Current Affairs' },
+        ]}
+      />
 
       {articles.length === 0 ? (
         <EmptyState icon={<Newspaper size={48} />} title="No articles yet" description="Current affairs articles will appear here." />
@@ -26,48 +31,26 @@ export default async function StudentCurrentAffairsPage() {
           {articles.map((a) => (
             <Link
               key={a._id}
-              href={`/blog/${a.slug}`}
-              className="article-card flex flex-col group"
+              href={`/student/current-affairs/${a.slug}`}
+              className="article-card flex flex-col overflow-hidden"
+              style={{ display: 'flex' }}
             >
-              {/* Thumbnail */}
-              <div
-                className="relative overflow-hidden flex-shrink-0"
-                style={{ height: '160px', background: 'linear-gradient(135deg, #1e293b, #334155)' }}
-              >
-                {a.thumbnail
-                  ? <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <Newspaper size={40} style={{ color: 'rgba(255,255,255,0.2)' }} />
-                    </div>
-                  )
-                }
-                {a.category && (
-                  <span
-                    className="absolute top-3 left-3 badge text-white"
-                    style={{ background: 'rgba(37,99,235,0.85)', backdropFilter: 'blur(4px)' }}
-                  >
-                    {a.category}
-                  </span>
-                )}
-              </div>
-
-              {/* Body */}
+              {a.thumbnail && (
+                <div className="h-40 overflow-hidden flex-shrink-0">
+                  <img src={a.thumbnail} alt="" className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
+                </div>
+              )}
               <div className="p-4 flex flex-col flex-1">
-                <h3
-                  className="font-bold text-sm leading-snug line-clamp-2 mb-2 transition-colors group-hover:text-blue-500"
-                  style={{ color: 'var(--text-primary)' }}
-                >
-                  {a.title}
-                </h3>
-                {a.summary && (
-                  <p className="text-xs line-clamp-2 mb-3 flex-1" style={{ color: 'var(--text-muted)' }}>
-                    {a.summary}
-                  </p>
+                {a.category && (
+                  <span className="badge mb-2" style={{ background: 'rgba(59,130,246,0.1)', color: '#3b82f6' }}>{a.category}</span>
                 )}
-                <div className="flex items-center gap-1.5 text-xs mt-auto" style={{ color: 'var(--text-muted)' }}>
-                  <CalendarDays size={12} />
-                  {new Date(a.publishedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                <h3 className="font-bold text-sm line-clamp-2 mb-2 flex-1" style={{ color: 'var(--text-primary)' }}>{a.title}</h3>
+                {a.summary && (
+                  <p className="text-xs line-clamp-2 mb-3" style={{ color: 'var(--text-muted)' }}>{a.summary}</p>
+                )}
+                <div className="flex items-center justify-between text-xs mt-auto" style={{ color: 'var(--text-muted)' }}>
+                  <span>{new Date(a.publishedAt || a.createdAt).toLocaleDateString('en-IN')}</span>
+                  <span className="flex items-center gap-1 text-blue-500 font-semibold">Read <ChevronRight size={12} /></span>
                 </div>
               </div>
             </Link>

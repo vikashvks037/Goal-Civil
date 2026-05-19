@@ -1,11 +1,17 @@
 'use client';
-import { PageHeader } from '@/shared/components';
+import { ROUTES } from '@/constants';
+import { Breadcrumbs } from '@/shared/components';
 import { CouponsManager } from '@/features/admin/components/CouponsManager';
 
 export default function AdminCouponsPage() {
   return (
     <div className="space-y-5">
-      <PageHeader title="Coupons" subtitle="Create and manage discount codes" />
+      <Breadcrumbs
+        crumbs={[
+          { label: 'Admin',   href: ROUTES.ADMIN.DASHBOARD },
+          { label: 'Coupons' },
+        ]}
+      />
       <CouponsManager />
     </div>
   );

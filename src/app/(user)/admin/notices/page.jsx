@@ -1,11 +1,17 @@
 'use client';
-import { PageHeader } from '@/shared/components';
+import { ROUTES } from '@/constants';
+import { Breadcrumbs } from '@/shared/components';
 import { NoticesManager } from '@/features/admin/components/NoticesManager';
 
 export default function AdminNoticesPage() {
   return (
     <div className="space-y-5">
-      <PageHeader title="Notices" subtitle="Manage announcements for students" />
+      <Breadcrumbs
+        crumbs={[
+          { label: 'Admin',   href: ROUTES.ADMIN.DASHBOARD },
+          { label: 'Notices' },
+        ]}
+      />
       <NoticesManager />
     </div>
   );

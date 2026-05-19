@@ -3,6 +3,7 @@ import { ENDPOINTS } from '@/constants';
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Plus, Trash2, Edit2, ArrowLeft, ChevronDown, ChevronUp, Save, X, Loader2 } from 'lucide-react';
+import { CustomSelect } from '@/shared/components/CustomSelect';
 
 const defaultForm = {
   text: '',
@@ -182,20 +183,21 @@ export function QuestionEditor() {
             <div className="grid grid-cols-3 gap-3">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Type</label>
-                <select value={form.type} onChange={(e) => setForm(p => ({ ...p, type: e.target.value }))}
-                  className="w-full px-3 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option value="mcq">MCQ</option>
-                  <option value="subjective">Subjective</option>
-                </select>
+                <CustomSelect
+                  value={form.type}
+                  onChange={val => setForm(p => ({ ...p, type: val }))}
+                  options={[{ value: 'mcq', label: 'MCQ' }, { value: 'subjective', label: 'Subjective' }]}
+                  className="w-full px-3 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white text-sm"
+                />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Difficulty</label>
-                <select value={form.difficulty} onChange={(e) => setForm(p => ({ ...p, difficulty: e.target.value }))}
-                  className="w-full px-3 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option value="easy">Easy</option>
-                  <option value="medium">Medium</option>
-                  <option value="hard">Hard</option>
-                </select>
+                <CustomSelect
+                  value={form.difficulty}
+                  onChange={val => setForm(p => ({ ...p, difficulty: val }))}
+                  options={[{ value: 'easy', label: 'Easy' }, { value: 'medium', label: 'Medium' }, { value: 'hard', label: 'Hard' }]}
+                  className="w-full px-3 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white text-sm"
+                />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Marks</label>

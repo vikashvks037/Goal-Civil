@@ -32,6 +32,7 @@ export const ENDPOINTS = {
     PIC:   '/api/upload/pic',
     PDF:   '/api/upload/pdf',
     VIDEO: '/api/upload/video',
+    IMAGE: '/api/upload/image',
   },
   STUDENT: {
     ENROLLMENTS:  '/api/student/enrollments',

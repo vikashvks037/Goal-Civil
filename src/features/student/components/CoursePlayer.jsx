@@ -163,7 +163,7 @@ export default function CoursePlayer() {
             {/* Video Player */}
             {activeContent.type === 'video' && activeContent.url && (
               <div className="rounded-2xl overflow-hidden bg-black aspect-video mb-4">
-                {activeContent.url.includes('cloudinary') ? (
+                {activeContent.url.includes('supabase.co') ? (
                   <video controls className="w-full h-full" src={activeContent.url}>
                     Your browser does not support video.
                   </video>

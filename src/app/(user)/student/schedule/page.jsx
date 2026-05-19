@@ -1,10 +1,16 @@
-import { Calendar, Clock, BookOpen } from 'lucide-react';
-import { PageHeader, EmptyState } from '@/shared/components';
+import { Calendar } from 'lucide-react';
+import { ROUTES } from '@/constants';
+import { Breadcrumbs, EmptyState } from '@/shared/components';
 
-export default async function StudentSchedulePage() {
+export default function StudentSchedulePage() {
   return (
     <div className="space-y-5">
-      <PageHeader title="Schedule" subtitle="Your upcoming sessions and classes" />
+      <Breadcrumbs
+        crumbs={[
+          { label: 'Dashboard', href: ROUTES.STUDENT.DASHBOARD },
+          { label: 'Schedule' },
+        ]}
+      />
       <EmptyState
         icon={<Calendar size={48} />}
         title="No schedule available"

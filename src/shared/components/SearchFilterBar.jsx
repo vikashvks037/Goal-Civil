@@ -1,5 +1,6 @@
 'use client';
 import { Search, X } from 'lucide-react';
+import { CustomSelect } from '@/shared/components/CustomSelect';
 
 export function SearchFilterBar({
   searchValue, onSearchChange,
@@ -22,16 +23,14 @@ export function SearchFilterBar({
 
       {/* Selects */}
       {selects.map((s, i) => (
-        <select
+        <CustomSelect
           key={i}
           value={s.value}
-          onChange={e => s.onChange(e.target.value)}
+          onChange={s.onChange}
+          placeholder={s.placeholder}
+          options={[{ value: '', label: s.placeholder }, ...s.options]}
           className="input-base"
-          style={{ width: 'auto', minWidth: '140px' }}
-        >
-          <option value="">{s.placeholder}</option>
-          {s.options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-        </select>
+        />
       ))}
 
       {/* Clear */}

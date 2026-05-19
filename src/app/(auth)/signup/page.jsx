@@ -7,6 +7,7 @@ import {
   Eye, EyeOff, UserPlus, Loader2, Mail, Lock, User, Phone,
   GraduationCap, Calendar, MapPin, ChevronRight, ChevronLeft, Camera, CheckCircle2,
 } from 'lucide-react';
+import { CustomSelect } from '@/shared/components/CustomSelect';
 
 const QUALIFICATIONS = ['10th', '12th', 'Graduate', 'Post-Graduate', 'Other'];
 const GENDERS = ['male', 'female', 'other'];
@@ -100,7 +101,7 @@ export default function SignupPage() {
 
   return (
     <div className="w-full max-w-lg">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl shadow-black/5 dark:shadow-black/30 border border-gray-100 dark:border-gray-800 overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl shadow-black/5 dark:shadow-black/30 border border-gray-100 dark:border-gray-800" style={{ overflow: 'clip' }}>
 
         {/* Top accent */}
         <div className="h-1.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500" />
@@ -253,25 +254,29 @@ export default function SignupPage() {
 
               {/* Qualification + Gender row */}
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Qualification</label>
-                  <div className="relative">
-                    <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-                    <select name="qualification" value={form.qualification} onChange={handleChange}
-                      className="w-full pl-9 pr-3 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none">
-                      <option value="">Select</option>
-                      {QUALIFICATIONS.map((q) => <option key={q} value={q}>{q}</option>)}
-                    </select>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Qualification</label>
+                    <div className="relative">
+                      <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                      <CustomSelect
+                        value={form.qualification}
+                        onChange={val => setForm(p => ({ ...p, qualification: val }))}
+                        placeholder="Select"
+                        options={[{ value: '', label: 'Select' }, ...QUALIFICATIONS.map(q => ({ value: q, label: q }))]}
+                        className="w-full pl-9 pr-3 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Gender</label>
-                  <select name="gender" value={form.gender} onChange={handleChange}
-                    className="w-full px-3 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none capitalize">
-                    <option value="">Select</option>
-                    {GENDERS.map((g) => <option key={g} value={g} className="capitalize">{g.charAt(0).toUpperCase() + g.slice(1)}</option>)}
-                  </select>
-                </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Gender</label>
+                    <CustomSelect
+                      value={form.gender}
+                      onChange={val => setForm(p => ({ ...p, gender: val }))}
+                      placeholder="Select"
+                      options={[{ value: '', label: 'Select' }, ...GENDERS.map(g => ({ value: g, label: g.charAt(0).toUpperCase() + g.slice(1) }))]}
+                      className="w-full px-3 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm"
+                    />
+                  </div>
               </div>
 
               {/* DOB */}
@@ -297,14 +302,16 @@ export default function SignupPage() {
                     />
                   </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">State</label>
-                  <select name="state" value={form.state} onChange={handleChange}
-                    className="w-full px-3 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none">
-                    <option value="">Select</option>
-                    {STATES.map((s) => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">State</label>
+                    <CustomSelect
+                      value={form.state}
+                      onChange={val => setForm(p => ({ ...p, state: val }))}
+                      placeholder="Select"
+                      options={[{ value: '', label: 'Select' }, ...STATES.map(s => ({ value: s, label: s }))]}
+                      className="w-full px-3 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm"
+                    />
+                  </div>
               </div>
 
               {/* Buttons */}

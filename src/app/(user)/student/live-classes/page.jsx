@@ -1,6 +1,6 @@
-import { ENDPOINTS } from '@/constants';
+import { ENDPOINTS, ROUTES } from '@/constants';
 import { Video, ExternalLink, CalendarDays, Radio } from 'lucide-react';
-import { PageHeader, EmptyState } from '@/shared/components';
+import { Breadcrumbs, EmptyState } from '@/shared/components';
 
 const STATUS = {
   live:      { label: 'LIVE',      bg: 'rgba(16,185,129,0.15)', color: '#10b981', pulse: true },
@@ -23,7 +23,7 @@ export default async function StudentLiveClassesPage() {
 
   return (
     <div className="space-y-5">
-      <PageHeader title="Live Classes" subtitle="Scheduled and upcoming sessions" />
+      <Breadcrumbs crumbs={[{ label: 'Dashboard', href: ROUTES.STUDENT.DASHBOARD }, { label: 'Live Classes' }]} />
 
       {classes.length === 0 ? (
         <EmptyState icon={<Video size={48} />} title="No live classes scheduled" description="Live class schedules will appear here." />

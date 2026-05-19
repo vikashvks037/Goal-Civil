@@ -11,15 +11,15 @@ export async function POST(req) {
     const file = formData.get('file');
 
     if (!file) return NextResponse.json({ error: 'No file provided.' }, { status: 400 });
-    if (file.type !== 'application/pdf') return NextResponse.json({ error: 'Only PDF files allowed.' }, { status: 400 });
-    if (file.size > 50 * 1024 * 1024) return NextResponse.json({ error: 'PDF must be under 50MB.' }, { status: 400 });
+    if (!file.type.startsWith('image/')) return NextResponse.json({ error: 'Only image files allowed.' }, { status: 400 });
+    if (file.size > 10 * 1024 * 1024) return NextResponse.json({ error: 'Image must be under 10MB.' }, { status: 400 });
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const { url, path } = await uploadToSupabase(buffer, 'pdfs', file.name, file.type);
+    const { url, path } = await uploadToSupabase(buffer, 'images', file.name, file.type);
 
-    return NextResponse.json({ message: 'PDF uploaded.', url, path });
+    return NextResponse.json({ message: 'Image uploaded.', url, path });
   } catch (err) {
-    console.error('[UPLOAD PDF ERROR]', err);
+    console.error('[UPLOAD IMAGE ERROR]', err);
     return NextResponse.json({ error: 'Upload failed.' }, { status: 500 });
   }
 }

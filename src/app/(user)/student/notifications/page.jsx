@@ -1,6 +1,6 @@
-import { ENDPOINTS } from '@/constants';
+import { ENDPOINTS, ROUTES } from '@/constants';
 import { Bell, Info, AlertTriangle, CheckCircle } from 'lucide-react';
-import { PageHeader, EmptyState } from '@/shared/components';
+import { Breadcrumbs, EmptyState } from '@/shared/components';
 
 async function getNotices() {
   try {
@@ -23,7 +23,7 @@ export default async function StudentNotificationsPage() {
 
   return (
     <div className="space-y-5">
-      <PageHeader title="Notifications" subtitle="Important updates and announcements" />
+      <Breadcrumbs crumbs={[{ label: 'Dashboard', href: ROUTES.STUDENT.DASHBOARD }, { label: 'Notifications' }]} />
 
       {notices.length === 0 ? (
         <EmptyState icon={<Bell size={48} />} title="No notifications yet" description="Notices and announcements will appear here." />

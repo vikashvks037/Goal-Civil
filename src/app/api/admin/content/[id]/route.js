@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
 import { requireAdmin } from '@/lib/adminAuth';
 import Content from '@/server/db/models/Content';
-import { deleteFromCloudinary } from '@/server/lib/cloudinary';
+import { deleteFromSupabase } from '@/server/lib/supabaseStorage';
 
 export async function PUT(req, { params }) {
   try {
@@ -29,9 +29,8 @@ export async function DELETE(_req, { params }) {
     const { id } = await params;
     await connectDB();
     const content = await Content.findByIdAndDelete(id);
-    if (content?.cloudinaryId) {
-      const resourceType = content.type === 'video' ? 'video' : content.type === 'pdf' ? 'raw' : 'image';
-      await deleteFromCloudinary(content.cloudinaryId, resourceType).catch(console.error);
+    if (content?.storagePath) {
+      await deleteFromSupabase(content.storagePath).catch(console.error);
     }
     return NextResponse.json({ message: 'Content deleted.' });
   } catch (err) {

@@ -1,8 +1,8 @@
 'use client';
-import { ENDPOINTS } from '@/constants';
+import { ENDPOINTS, ROUTES } from '@/constants';
 import { useEffect, useState } from 'react';
 import { BookOpen } from 'lucide-react';
-import { CourseCard, SearchFilterBar, EmptyState, PageHeader } from '@/shared/components';
+import { CourseCard, SearchFilterBar, EmptyState, Breadcrumbs } from '@/shared/components';
 
 const CATEGORY_OPTIONS = [
   'BPSC Prelims', 'BPSC Mains', 'Current Affairs',
@@ -42,7 +42,7 @@ export default function CoursesPage() {
 
   return (
     <div>
-      <PageHeader variant="hero" title="All Courses" subtitle="Choose your path to BPSC success" />
+      <Breadcrumbs crumbs={[{ label: 'Dashboard', href: ROUTES.STUDENT.DASHBOARD }, { label: 'Browse Courses' }]} />
 
       <SearchFilterBar
         searchValue={search}

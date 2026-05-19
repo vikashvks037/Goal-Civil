@@ -1,6 +1,7 @@
 import { connectDB } from '@/lib/mongodb';
 import { BarChart2, TrendingUp, Users, IndianRupee } from 'lucide-react';
-import { PageHeader, StatCard } from '@/shared/components';
+import { Breadcrumbs, StatCard } from '@/shared/components';
+import { ROUTES } from '@/constants';
 
 async function getAnalytics() {
   try {
@@ -40,7 +41,7 @@ export default async function AdminAnalyticsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Analytics" subtitle="Platform performance overview" />
+      <Breadcrumbs crumbs={[{ label: 'Admin', href: ROUTES.ADMIN.DASHBOARD }, { label: 'Analytics' }]} />
 
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         <StatCard icon={<Users size={22}/>}        label="Total Students"  value={totalStudents}                                          color="bg-blue-50 text-blue-600"/>

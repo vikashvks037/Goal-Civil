@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireStudent } from '@/lib/adminAuth';
-import { uploadToCloudinary } from '@/server/lib/cloudinary';
+import { uploadToSupabase } from '@/server/lib/supabaseStorage';
 import { connectDB } from '@/lib/mongodb';
 import User from '@/server/db/models/User';
 
@@ -17,7 +17,7 @@ export async function POST(req) {
     if (file.size > 5 * 1024 * 1024) return NextResponse.json({ error: 'File size must be under 5MB.' }, { status: 400 });
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const { url } = await uploadToCloudinary(buffer, 'profiles', 'image');
+    const { url } = await uploadToSupabase(buffer, 'profiles', file.name, file.type);
 
     await connectDB();
     await User.findByIdAndUpdate(auth.user.id, { profilePic: url });

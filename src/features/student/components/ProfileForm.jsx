@@ -2,6 +2,7 @@
 import { ENDPOINTS } from '@/constants';
 import { useEffect, useState, useRef } from 'react';
 import { Camera, Save, User } from 'lucide-react';
+import { CustomSelect } from '@/shared/components/CustomSelect';
 
 const EMPTY = { name: '', email: '', phone: '', city: '', state: '', qualification: '', dob: '', gender: '' };
 const QUALS = ['10th','12th','Graduate','Post-Graduate','Other'];
@@ -75,27 +76,33 @@ export function ProfileForm() {
           ))}
           <div>
             <label className="block text-xs font-semibold text-gray-600 mb-1">Gender</label>
-            <select name="gender" value={form.gender || ''} onChange={handleChange}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
-              <option value="">Select</option>
-              {['male','female','other'].map(g => <option key={g} value={g} className="capitalize">{g.charAt(0).toUpperCase()+g.slice(1)}</option>)}
-            </select>
+            <CustomSelect
+              value={form.gender || ''}
+              onChange={val => setForm(f => ({ ...f, gender: val }))}
+              placeholder="Select"
+              options={[{ value: '', label: 'Select' }, { value: 'male', label: 'Male' }, { value: 'female', label: 'Female' }, { value: 'other', label: 'Other' }]}
+              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm"
+            />
           </div>
           <div>
             <label className="block text-xs font-semibold text-gray-600 mb-1">Qualification</label>
-            <select name="qualification" value={form.qualification || ''} onChange={handleChange}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
-              <option value="">Select</option>
-              {QUALS.map(q => <option key={q} value={q}>{q}</option>)}
-            </select>
+            <CustomSelect
+              value={form.qualification || ''}
+              onChange={val => setForm(f => ({ ...f, qualification: val }))}
+              placeholder="Select"
+              options={[{ value: '', label: 'Select' }, ...QUALS.map(q => ({ value: q, label: q }))]}
+              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm"
+            />
           </div>
           <div>
             <label className="block text-xs font-semibold text-gray-600 mb-1">State</label>
-            <select name="state" value={form.state || ''} onChange={handleChange}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
-              <option value="">Select</option>
-              {STATES.map(s => <option key={s} value={s}>{s}</option>)}
-            </select>
+            <CustomSelect
+              value={form.state || ''}
+              onChange={val => setForm(f => ({ ...f, state: val }))}
+              placeholder="Select"
+              options={[{ value: '', label: 'Select' }, ...STATES.map(s => ({ value: s, label: s }))]}
+              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm"
+            />
           </div>
         </div>
       </div>
